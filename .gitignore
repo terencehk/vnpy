@@ -65,3 +65,6 @@ dist
 *.egg
 *.egg-info
 
+#personal ignore
+examples/FutuTrader/Futu_connect.json
+examples/VnTrader/IB_connect.json
