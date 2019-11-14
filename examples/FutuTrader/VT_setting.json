@@ -7,10 +7,10 @@
 	"mongoLogging": true,
 
 	"darkStyle": true,
-	"language": "chinese",
+	"language": "english",
 
 	"logActive": true,
-	"logLevel": "debug",
+	"logLevel": "error",
 	"logConsole": true,
 	"logFile": true,
 

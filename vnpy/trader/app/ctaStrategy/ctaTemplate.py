@@ -167,7 +167,7 @@ class CtaTemplate(object):
     
     #----------------------------------------------------------------------
     def loadBar(self, days):
-        """读取bar数据"""
+        """读取bar数据 TT change to load value from futu"""
         return self.ctaEngine.loadBar(self.barDbName, self.vtSymbol, days)
     
     #----------------------------------------------------------------------

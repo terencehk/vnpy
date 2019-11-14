@@ -462,6 +462,10 @@ class CtaEngine(AppEngine):
 
                 self.loadSyncData(strategy)                             # 初始化完成后加载同步数据
                 self.subscribeMarketData(strategy)                      # 加载同步数据后再订阅行情
+
+                detail = self.mainEngine.getPositionDetail(strategy.vtSymbol)
+                strategy.pos = detail.longPos - detail.shortPos
+                self.saveSyncData(strategy)
             else:
                 self.writeCtaLog(u'请勿重复初始化策略实例：%s' %name)
         else:
@@ -608,8 +612,8 @@ class CtaEngine(AppEngine):
             strategy.inited = False
             
             # 发出日志
-            content = '\n'.join([u'策略%s触发异常已停止' %strategy.name,
-                                traceback.format_exc()])
+            content = '\n'.join([u'策略%s触发异常已停止' %(strategy.name),
+                                traceback.format_exc().decode('utf-8')])
             self.writeCtaLog(content)
             
     #----------------------------------------------------------------------

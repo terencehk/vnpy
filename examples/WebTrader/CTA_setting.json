@@ -1,19 +1,37 @@
 [
     {
-        "name": "double ema",
-        "className": "DoubleMaStrategy",
-        "vtSymbol": "IF1802"
+        "name": "kdj 700",
+        "className": "KDJStrategy",
+        "vtSymbol": "HK.00700"
     },
 
     {
-        "name": "atr rsi",
-        "className": "AtrRsiStrategy",
-        "vtSymbol": "IC1802"
+        "name": "kdj 5",
+        "className": "KDJStrategy",
+        "vtSymbol": "HK.00005"
     },
 
     {
-        "name": "king keltner",
-        "className": "KkStrategy",
-        "vtSymbol": "IH1802"
+        "name": "kdj 175",
+        "className": "KDJStrategy",
+        "vtSymbol": "HK.00175"
+    },
+
+    {
+        "name": "kdj 2382",
+        "className": "KDJStrategy",
+        "vtSymbol": "HK.02382"
+    },
+
+    {
+        "name": "kdj 2018",
+        "className": "KDJStrategy",
+        "vtSymbol": "HK.02018"
+    },
+
+    {
+        "name": "kdj 799",
+        "className": "KDJStrategy",
+        "vtSymbol": "HK.00799"
     }
 ]

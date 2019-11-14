@@ -290,3 +290,16 @@ class ArrayManager(object):
         if array:
             return up, down
         return up[-1], down[-1]
+
+    #----------------------------------------------------------------------
+    def kdj(self, fastk_period, slowk_period, slowk_matype, slowd_period, slowd_matype, array=False):
+        """KDJ指标"""
+
+        slowk, slowd = talib.STOCH(self.high, self.low, self.close, fastk_period, slowk_period,
+                                   slowk_matype, slowd_period, slowd_matype)
+
+        # 求出J值，J = (3 * D) - (2 * K)
+        slowj = list(map(lambda x, y: 3 * x - 2 * y, slowk, slowd))
+        if array:
+            return slowk, slowd, slowj
+        return slowk[-1], slowd[-1], slowj[-1]

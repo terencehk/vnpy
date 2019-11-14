@@ -41,6 +41,9 @@ PRODUCT_FOREX = u'forex'
 PRODUCT_UNKNOWN = u'unknown'
 PRODUCT_SPOT = u'spot'
 PRODUCT_DEFER = u'defer'
+PRODUCT_ETF = u'ETF'
+PRODUCT_WARRANT = u'WARRANT'
+PRODUCT_BOND = u'BOND'
 PRODUCT_NONE = 'none'
 
 # 价格类型常量

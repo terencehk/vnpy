@@ -11,7 +11,7 @@ from pymongo import MongoClient, ASCENDING
 from vnpy.trader.vtObject import VtBarData
 from vnpy.trader.app.ctaStrategy.ctaBase import MINUTE_DB_NAME
 
-import futuquant as ft
+import futu as ft
 
 # 加载配置
 config = open('config.json')
@@ -25,7 +25,7 @@ mc = MongoClient(MONGO_HOST, MONGO_PORT)        # Mongo连接
 db = mc[MINUTE_DB_NAME]                         # 数据库
 quote = ft.OpenQuoteContext()                   # 富途行情接口
 today = datetime.now().date()
-startDate = (today - timedelta(10)).strftime('%Y-%m-%d')    # 数据下载起始日期
+startDate = (today - timedelta(21)).strftime('%Y-%m-%d')    # 数据下载起始日期
 
 
 #----------------------------------------------------------------------
@@ -51,22 +51,27 @@ def generateVtBar(row):
 def downMinuteBarBySymbol(symbol):
     """下载某一合约的分钟线数据"""
     start = time()
+    page_req_key = None
 
     cl = db[symbol]
     cl.ensure_index([('datetime', ASCENDING)], unique=True)         # 添加索引
     
-    code, data = quote.get_history_kline(symbol, start=startDate, ktype='K_1M')
-    if code:
-        print(u'合约%s数据下载失败：%s' %(symbol, data))
-        return
-        
-    data = data.sort_index()
-    
-    for ix, row in data.iterrows():
-        bar = generateVtBar(row)
-        d = bar.__dict__
-        flt = {'datetime': bar.datetime}
-        cl.replace_one(flt, d, True)            
+    code, data, page_req_key = quote.request_history_kline(symbol, start=startDate, ktype=ft.KLType.K_1M)
+
+    while page_req_key != None:
+        if code:
+            print(u'合约%s数据下载失败：%s' %(symbol, data))
+            return
+
+        data = data.sort_index()
+
+        for ix, row in data.iterrows():
+            bar = generateVtBar(row)
+            d = bar.__dict__
+            flt = {'datetime': bar.datetime}
+            cl.replace_one(flt, d, True)
+
+        code, data, page_req_key = quote.request_history_kline(symbol, start=startDate, ktype=ft.KLType.K_1M, page_req_key=page_req_key)
 
     end = time()
     cost = (end - start) * 1000

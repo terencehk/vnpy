@@ -99,7 +99,7 @@
                                 <div class="el-col el-col-18">
                                     <el-button class="el-col el-col-24" type="primary" @click="onSubmit" v-loading="loading.order">发单</el-button>
                                     <el-button class="el-col el-col-24" @click="dAllOrder">全撤</el-button>
-                                    <el-button class="el-col el-col-24" v-loading="loading.token" @click="gGateway">连接CTP</el-button>
+                                    <el-button class="el-col el-col-24" v-loading="loading.token" @click="gGateway">连接Futu</el-button>
                                 </div>
                             </el-row>
                             <el-row class="body-left__connection">
@@ -478,7 +478,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -523,7 +523,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -556,7 +556,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -607,7 +607,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -686,7 +686,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -748,7 +748,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -796,7 +796,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
             console.log(e.vtOrderID);
@@ -822,7 +822,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
             console.log(e.vtOrderID);
@@ -861,7 +861,7 @@ new Vue({
             }
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -889,7 +889,7 @@ new Vue({
 
             if (this.config.gateway == undefined || this.config.gateway == "") {
                 this.loading.contract = false;
-                this.$alert('请先连接CTP', '警告', {confirmButtonText: '确定',});
+                this.$alert('请先连接Futu', '警告', {confirmButtonText: '确定',});
                 return;
             }
 
@@ -914,11 +914,11 @@ new Vue({
             const that = this;
             axios.post(host + '/gateway', {
                     token: this.config.token,
-                    gatewayName: 'CTP'
+                    gatewayName: 'Futu'
                 })
                 .then(function(res) {
                     that.config.gateway = true;
-                    that.$message({ message: '已连接CTP', type: 'success' });
+                    that.$message({ message: '已连接Futu', type: 'success' });
                 })
                 .catch(function(err) {
                     console.log("res",err)

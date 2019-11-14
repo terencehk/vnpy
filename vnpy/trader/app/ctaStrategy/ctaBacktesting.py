@@ -637,8 +637,8 @@ class BacktestingEngine(object):
             noResult['tradeTimeList'] = 0
             noResult['resultList'] = 0
             noResult['maxDrawdown'] = 0
-            return noResult            
-            
+            return noResult
+
         
         # 首先基于回测后的成交记录，计算每笔交易的盈亏
         resultList = []             # 交易结果列表
@@ -754,7 +754,7 @@ class BacktestingEngine(object):
             resultList.append(result)
             posList.extend([1, 0])
             tradeTimeList.extend([result.entryDt, result.exitDt])
-            
+
         for trade in shortTrade:
             result = TradingResult(trade.price, trade.dt, endPrice, self.dt, 
                                    -trade.volume, self.rate, self.slippage, self.size)
@@ -786,14 +786,14 @@ class BacktestingEngine(object):
         losingResult = 0        # 亏损次数		
         totalWinning = 0        # 总盈利金额		
         totalLosing = 0         # 总亏损金额
-        maxDrawdown = 0         # 最大回撤              
+        maxDrawdown = 0         # 最大回撤
         
         for result in resultList:
             capital += result.pnl
             maxCapital = max(capital, maxCapital)
             drawdown = capital - maxCapital
             maxDrawdown = min(drawdown, maxDrawdown)
-            
+
             pnlList.append(result.pnl)
             timeList.append(result.exitDt)      # 交易的时间戳使用平仓时间
             capitalList.append(capital)
@@ -845,7 +845,7 @@ class BacktestingEngine(object):
         d['posList'] = posList
         d['tradeTimeList'] = tradeTimeList
         d['resultList'] = resultList
-        d['maxDrawdown']  = maxDrawdown    
+        d['maxDrawdown']  = maxDrawdown
         return d
         
     #----------------------------------------------------------------------
@@ -855,21 +855,21 @@ class BacktestingEngine(object):
         
         # 输出
         self.output('-' * 30)
-        self.output(u'第一笔交易：\t%s' % d['timeList'][0])
-        self.output(u'最后一笔交易：\t%s' % d['timeList'][-1])
+        self.output(u'First Trade：\t\t\t%s' % d['timeList'][0])
+        self.output(u'Last Trade：\t\t\t\t%s' % d['timeList'][-1])
         
-        self.output(u'总交易次数：\t%s' % formatNumber(d['totalResult']))        
-        self.output(u'总盈亏：\t%s' % formatNumber(d['capital']))
-        self.output(u'最大回撤: \t%s' % formatNumber(d['maxDrawdown']))                
+        self.output(u'Total no. of trades：\t%s' % formatNumber(d['totalResult']))
+        self.output(u'Total Profit：\t\t\t%s' % formatNumber(d['capital']))
+        self.output(u'Total Loss : \t\t\t%s' % formatNumber(min(d['drawdownList'])))
         
-        self.output(u'平均每笔盈利：\t%s' %formatNumber(d['capital']/d['totalResult']))
-        self.output(u'平均每笔滑点：\t%s' %formatNumber(d['totalSlippage']/d['totalResult']))
-        self.output(u'平均每笔佣金：\t%s' %formatNumber(d['totalCommission']/d['totalResult']))
+        self.output(u'Avg Profit per trade：\t%s' %formatNumber(d['capital']/d['totalResult']))
+        self.output(u'Avg Slippage per trade：\t%s' %formatNumber(d['totalSlippage']/d['totalResult']))
+        self.output(u'Total Commission：\t\t%s' %formatNumber(d['totalCommission']))
         
-        self.output(u'胜率\t\t%s%%' %formatNumber(d['winningRate']))
-        self.output(u'盈利交易平均值\t%s' %formatNumber(d['averageWinning']))
-        self.output(u'亏损交易平均值\t%s' %formatNumber(d['averageLosing']))
-        self.output(u'盈亏比：\t%s' %formatNumber(d['profitLossRatio']))
+        self.output(u'Win Rate\t\t\t\t%s%%' %formatNumber(d['winningRate']))
+        self.output(u'Profit Average\t\t\t%s' %formatNumber(d['averageWinning']))
+        self.output(u'Loss Average\t\t\t%s' %formatNumber(d['averageLosing']))
+        self.output(u'PnL ratio：\t\t\t\t%s' %formatNumber(d['profitLossRatio']))
     
         # 绘图
         fig = plt.figure(figsize=(10, 16))
@@ -891,8 +891,10 @@ class BacktestingEngine(object):
         if d['posList'][-1] == 0:
             del d['posList'][-1]
         tradeTimeIndex = [item.strftime("%m/%d %H:%M:%S") for item in d['tradeTimeList']]
-        step = np.int(len(tradeTimeIndex) / 10)
-        xindex = np.arange(0, len(tradeTimeIndex), step if step > 0 else 1)
+        if np.int(len(tradeTimeIndex) / 10) == 0:
+            xindex = np.arange(0, len(tradeTimeIndex), 1)
+        else:
+            xindex = np.arange(0, len(tradeTimeIndex), np.int(len(tradeTimeIndex)/10))
         tradeTimeIndex = list(map(lambda i: tradeTimeIndex[i], xindex))
         pPos.plot(d['posList'], color='k', drawstyle='steps-pre')
         pPos.set_ylim(-1.2, 1.2)
@@ -1387,9 +1389,8 @@ def runHistoryDataServer():
     hds.start()
 
     print(u'按任意键退出')
-    
-    raw_input()
     hds.stop()
+    raw_input()
 
 
 #----------------------------------------------------------------------
